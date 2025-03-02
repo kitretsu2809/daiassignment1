@@ -1,0 +1,125 @@
+------Observations:
+
+    Columns: rank, discipline, yrs.since.phd, yrs.service, sex, salary.
+    Data types: rank, discipline, sex are categorical (object), while yrs.since.phd, yrs.service, salary are numerical (int64).
+    The dataset has 397 rows (based on the index from 1 to 397).
+
+-----Handling Missing Values
+    Results:
+
+    Before Imputation:
+        yrs.since.phd: 2 missing.
+        yrs.service: 3 missing.
+        salary: 6 missing.
+    After Imputation: No missing values remain.
+    Medians Used (computed from non-missing data):
+        yrs.since.phd: ~22.
+        yrs.service: ~17.
+        salary: ~113,543.
+
+------Removing Duplicates
+    Result: No duplicate rows found in the dataset.
+
+
+------Detecting and Treating Outliers
+    Results (approximate, based on data):
+
+    yrs.since.phd: ~5 outliers (e.g., 56 in row 351).
+    yrs.service: ~4 outliers (e.g., 60 in row 331).
+    salary: ~10 outliers (e.g., 231,545 in row 44).
+
+    Decision: Outliers are plausible (senior professors with long careers or high salaries), so they are retained.
+
+--------Standardizing Categorical Values
+    Result:
+
+    rank: ['Prof', 'AsstProf', 'AssocProf'] – consistent.
+    discipline: ['B', 'A'] – consistent.
+    sex: ['Male', 'Female'] – consistent.
+
+    No inconsistencies or typos detected.
+
+######Step 2: Exploratory Data Analysis (EDA)#######
+---------Univariate Analysis
+
+    Analyze each variable individually.
+    Numerical Variables
+
+    Examine summary statistics and distributions.
+
+    Results and Insights:
+
+    Years Since PhD:
+        Mean: 22.31, Median: 21, Range: 1–56.
+        Skewness: 0.46 (slightly right-skewed).
+        Most values cluster between 10–40 years.
+    Years of Service:
+        Mean: 17.61, Median: 16, Range: 0–60.
+        Skewness: 0.64 (moderately right-skewed).
+        Many faculty have <20 years of service, with a tail of longer-serving individuals.
+    Salary:
+        Mean: 113,706, Median: 113,543, Range: 57,800–231,545.
+        Skewness: 0.71 (moderately right-skewed).
+        Salaries cluster around 80,000–150,000, with a few high earners.
+
+--------Categorical Variables
+    Results and Insights:
+
+    Rank:
+        Prof: 67%, AsstProf: 17%, AssocProf: 16%.
+        Professors dominate the dataset.
+    Discipline:
+        B: 54%, A: 46%.
+        Slightly more faculty in discipline B.
+    Sex:
+        Male: 90%, Female: 10%.
+        Significant gender imbalance, with males heavily overrepresented.
+
+--------Bivariate Analysis
+
+Explore relationships between pairs of variables.
+Numerical-Numerical Relationships
+
+Examine correlations and scatter plots.
+    Results and Insights:
+
+    Correlation Matrix:
+        yrs.since.phd vs. yrs.service: 0.91 (very strong positive correlation).
+        yrs.since.phd vs. salary: 0.42 (moderate positive correlation).
+        yrs.service vs. salary: 0.33 (weak positive correlation).
+    Scatter Plot: Weak positive trend between yrs.since.phd and salary, with considerable variability (e.g., some with 40+ years earn less than those with 20 years).
+
+C-------------ategorical-Numerical Relationships
+    Results and Insights:
+
+    Rank vs. Salary:
+        Prof: Median ~120,000, Range: 57,800–231,545.
+        AssocProf: Median ~97,000, Range: 62,884–126,431.
+        AsstProf: Median ~80,000, Range: 63,100–97,032.
+        Professors have significantly higher salaries, with more outliers.
+    Sex vs. Salary:
+        Male: Median ~113,000, Range: 57,800–231,545.
+        Female: Median ~109,650, Range: 63,100–161,101.
+        Similar medians, but males have more high outliers.
+
+---------Categorical-Categorical Relationships
+    Insight: Males dominate all ranks (Prof: 238M/28F, AssocProf: 57M/7F, AsstProf: 62M/5F), especially among Professors.
+
+
+-----------Multivariate Analysis
+
+-------Examine interactions among multiple variables.
+        Pair Plots
+
+--------Visualize relationships with a categorical hue.
+    Insight: Professors have higher yrs.since.phd, yrs.service, and salary, with distinct separation from Assistant and Associate Professors in numerical variables.
+
+----------Grouped Comparisons
+
+    Analyze combined effects using a pivot table.
+    Results and Insights:
+
+    Prof: Male: 117,865, Female: 122,876 (females earn more on average).
+    AssocProf: Male: 94,624, Female: 95,256 (similar).
+    AsstProf: Male: 83,167, Female: 81,885 (males slightly higher).
+    Female Professors earn more, possibly due to small sample size (28 females vs. 238 males).
